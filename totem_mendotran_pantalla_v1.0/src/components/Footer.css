@@ -1,0 +1,8 @@
+.publicidad_media{
+    position: absolute;
+    width: 1050px;
+    height: 312px;
+    left: 15px;
+    top: 1595px; 
+    z-index: 1000;
+}

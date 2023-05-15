@@ -1,0 +1,5 @@
+# Ignorar archivos .rar
+*.rar
+
+# Ignorar variables de entorno
+.env
