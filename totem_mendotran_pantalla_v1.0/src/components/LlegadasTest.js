@@ -31,6 +31,10 @@ const LlegadasTest = () => {
 
     var screensDelay;
     var currentTime;
+    var arrivalsStopId;
+    //const initSpace = 440; //para 7 paradas
+    const initSpace = 300;
+    const intermediateSpace = 150;
 
     useEffect(() => {
         const intervalLlegada = setInterval(()=> {
@@ -44,9 +48,20 @@ const LlegadasTest = () => {
 
     const getDatos = async () =>{
         
-        const URL = `https://mendotran.oba.visionblo.com/oba_api/api/where/arrivals-and-departures-for-stop/${process.env.REACT_APP_MENDOTRAN_PARADA_ID}.json?platform=mobile&v=&minutesBefore=0&minutesAfter=${process.env.REACT_APP_MENDOTRAN_INTERVALO_COSNULTA}&version=${process.env.REACT_APP_MENDOTRAN_VERSION}`
-        
+        //! Descomentar para produccion
+        const URL = `https://mendotran.oba.visionblo.com/oba_api/api/where/arrivals-and-departures-for-stop/${process.env.REACT_APP_MENDOTRAN_PARADA_ID}.json?platform=mobile&v=&minutesBefore=0&minutesAfter=${process.env.REACT_APP_MENDOTRAN_INTERVALO_CONSULTA}&version=${process.env.REACT_APP_MENDOTRAN_VERSION}`
+        //! Descomentar para test
+        // const URL = `https://mytsoluciones.com/desarrollo/Totem/json_files_test/mendotran_ovlobo.json`
+
+        //! Descomentar para produccion
         const   data        = await fetch(URL)
+        //! Descomentar para test
+        // const   data        = await fetch(URL,{
+        //     'mode': 'no-cors',
+        //     'headers':{
+        //         'Access-Control-Allow-Origin': '*',
+        //     }
+        // })
         const   llegadas    = await data.json()
 
         //? TIEMPO DE CONSULTA
@@ -54,17 +69,21 @@ const LlegadasTest = () => {
         //const testTime = Math.round(new Date().getTime());
         //console.log("La consulta se realizó a las: "+ new Date(currentTime)+" segun ovlobo y  a las: "+ new Date(testTime)+" segun mi app")
         //console.log("Veo esto po serveer: "+ currentTime+" y esto por app: "+ testTime+" --- Diferencia: "+(currentTime-testTime))
-        
+
+        //? NOMBRE DE LA PARADA
+        arrivalsStopId    =  llegadas.data.references.stops[0].name
+        console.log("Codigo de la parada: " + arrivalsStopId)
+       
         //? CUANTAS PARADAS HAY?
         const arrivalsNumber    =  llegadas.data.entry.arrivalsAndDepartures.length
         console.log("Cantidad de paradas: " + arrivalsNumber)
        
         //? CUANTAS PANTALLAS COMPLETAS SE PUEDEN ARMAR (N)?
-        const screensFull       = ~~(arrivalsNumber/7)
-        console.log("Pantallas completas con 7 paradas: " + screensFull)
+        const screensFull       = ~~(arrivalsNumber/8)
+        console.log("Pantallas completas con 8 paradas: " + screensFull)
        
         //? CUANTAS PARADAS TIENE LA ULTIMA PANTALLA INCOMPLETA (X)
-        const screensPart       = arrivalsNumber%7
+        const screensPart       = arrivalsNumber%8
         console.log("Si hay una parada incompleta tendrá: " + screensPart + " paradas.")
        
         //? CANTIDAD DE PANTALLAS TOTALES DEL TOTEM ?
@@ -123,8 +142,8 @@ const LlegadasTest = () => {
         // const armarParadas = (pantalla, screensPart, screensFull) =>{
             switch (pantalla) {
                 case 0:
-                    console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 7 paradas.")
-                    const newArray0         = paradas.slice(0,7)
+                    console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 8 paradas.")
+                    const newArray0         = paradas.slice(0,8)
                     setParadas0(newArray0)
                     setModo0(true)
                     setModo1(false)
@@ -138,8 +157,8 @@ const LlegadasTest = () => {
                     //setParadas1(paradas0.map(function(parada0, index){ return (index <= 6)?  console.log(parada0) : count++;}))   
                     break;
                 case 1:
-                    console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 7 paradas.")
-                    const newArray1 = paradas.slice(7,14)
+                    console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 8 paradas.")
+                    const newArray1 = paradas.slice(8,16)
                     setParadas1(newArray1)
                     setModo0(false)
                     setModo1(true)
@@ -152,8 +171,8 @@ const LlegadasTest = () => {
                     setModo100(false)
                     break;
                 case 2:
-                    console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 7 paradas.")
-                    const newArray2 = paradas.slice(14,21)
+                    console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 8 paradas.")
+                    const newArray2 = paradas.slice(16,24)
                     setParadas2(newArray2)
                     setModo0(false)
                     setModo1(false)
@@ -166,8 +185,8 @@ const LlegadasTest = () => {
                     setModo100(false)
                     break;
                 case 3:
-                    console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 7 paradas.")
-                    const newArray3 = paradas.slice(21,28)
+                    console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 8 paradas.")
+                    const newArray3 = paradas.slice(24,32)
                     setParadas3(newArray3)
                     setModo0(false)
                     setModo1(false)
@@ -180,8 +199,8 @@ const LlegadasTest = () => {
                     setModo100(false)
                     break;
                 case 4:
-                    console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 7 paradas.")
-                    const newArray4 = paradas.slice(28,35)
+                    console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 8 paradas.")
+                    const newArray4 = paradas.slice(32,40)
                     setParadas4(newArray4)
                     setModo0(false)
                     setModo1(false)
@@ -194,8 +213,8 @@ const LlegadasTest = () => {
                     setModo100(false)
                     break;
                 case 5:
-                    console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 7 paradas.")
-                    const newArray5 = paradas.slice(35,42)
+                    console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 8 paradas.")
+                    const newArray5 = paradas.slice(40,48)
                     setParadas5(newArray5)
                     setModo0(false)
                     setModo1(false)
@@ -208,8 +227,8 @@ const LlegadasTest = () => {
                     setModo100(false)
                     break;
                 case 6:
-                    console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 7 paradas.")
-                    const newArray6 = paradas.slice(42,49)
+                    console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 8 paradas.")
+                    const newArray6 = paradas.slice(48,56)
                     setParadas6(newArray6)
                     setModo0(false)
                     setModo1(false)
@@ -222,8 +241,8 @@ const LlegadasTest = () => {
                     setModo100(false)
                     break;
                 case 7:
-                    console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 7 paradas.")
-                    const newArray7 = paradas.slice(49,56)
+                    console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 8 paradas.")
+                    const newArray7 = paradas.slice(56,64)
                     setParadas7(newArray7)
                     setModo0(false)
                     setModo1(false)
@@ -237,9 +256,9 @@ const LlegadasTest = () => {
                     break;
                 case 100:
                     console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré: "+ screensPart + " paradas.")
-                    console.log("slice("+(screensFull*7)+" , "+((screensFull*7)+screensPart)+")")
-                    const inicio    = screensFull*7
-                    const fin       = (screensFull*7)+screensPart
+                    console.log("slice("+(screensFull*8)+" , "+((screensFull*8)+screensPart)+")")
+                    const inicio    = screensFull*8
+                    const fin       = (screensFull*8)+screensPart
                     //const newArray100 = paradas0.slice(inicio,fin)
                     const newArray100 = paradas.slice(inicio,fin)
                     setParadas100(newArray100)
@@ -272,14 +291,16 @@ const LlegadasTest = () => {
                                         color                   ={item.color} 
                                         routeShortName          ={item.routeShortName} 
                                         tripHeadsign            ={item.tripHeadsign}
-                                        spaceBox                ={440+(index*164)}
+                                        spaceBox                ={initSpace+(index*intermediateSpace)}
                                         // predicted               ={false}
                                         predicted               ={item.predicted}
+                                        // stopId                  ={item.arrivalsStopId.toString()}
                                         scheduledArrivalTime    ={new Date(item.scheduledArrivalTime).toLocaleTimeString()}
                                         statusArrivalTime       ={item.scheduledArrivalTime-item.predictedArrivalTime}
                                         predictedArrivalTime    ={new Date(item.predictedArrivalTime).toLocaleTimeString()}
                                         delayTimePredicted      ={item.predictedArrivalTime -new Date()}
                                         delayTimeScheduled      ={item.scheduledArrivalTime -new Date()}
+                                        
                                     />
                                 </div>
                             )).sort((a,b) => a.scheduledArrivalTime - b.scheduledArrivalTime)}
@@ -297,7 +318,7 @@ const LlegadasTest = () => {
                                         color                   ={item1.color} 
                                         routeShortName          ={item1.routeShortName} 
                                         tripHeadsign            ={item1.tripHeadsign}
-                                        spaceBox                ={440+(index1*164)}
+                                        spaceBox                ={initSpace+(index1*intermediateSpace)}
                                         // predicted               ={false}
                                         predicted               ={item1.predicted}
                                         scheduledArrivalTime    ={new Date(item1.scheduledArrivalTime).toLocaleTimeString()}
@@ -322,7 +343,7 @@ const LlegadasTest = () => {
                                         color                   ={item2.color} 
                                         routeShortName          ={item2.routeShortName} 
                                         tripHeadsign            ={item2.tripHeadsign}
-                                        spaceBox                ={440+(index2*164)}
+                                        spaceBox                ={initSpace+(index2*intermediateSpace)}
                                         // predicted               ={false}
                                         predicted               ={item2.predicted}
                                         scheduledArrivalTime    ={new Date(item2.scheduledArrivalTime).toLocaleTimeString()}
@@ -347,7 +368,7 @@ const LlegadasTest = () => {
                                         color                   ={item3.color} 
                                         routeShortName          ={item3.routeShortName} 
                                         tripHeadsign            ={item3.tripHeadsign}
-                                        spaceBox                ={440+(index3*164)}
+                                        spaceBox                ={initSpace+(index3*intermediateSpace)}
                                         // predicted               ={false}
                                         predicted               ={item3.predicted}
                                         scheduledArrivalTime    ={new Date(item3.scheduledArrivalTime).toLocaleTimeString()}
@@ -372,7 +393,7 @@ const LlegadasTest = () => {
                                         color                   ={item4.color} 
                                         routeShortName          ={item4.routeShortName} 
                                         tripHeadsign            ={item4.tripHeadsign}
-                                        spaceBox                ={440+(index4*164)}
+                                        spaceBox                ={initSpace+(index4*intermediateSpace)}
                                         // predicted               ={false}
                                         predicted               ={item4.predicted}
                                         scheduledArrivalTime    ={new Date(item4.scheduledArrivalTime).toLocaleTimeString()}
@@ -397,7 +418,7 @@ const LlegadasTest = () => {
                                         color                   ={item5.color} 
                                         routeShortName          ={item5.routeShortName} 
                                         tripHeadsign            ={item5.tripHeadsign}
-                                        spaceBox                ={440+(index5*164)}
+                                        spaceBox                ={initSpace+(index5*intermediateSpace)}
                                         // predicted               ={false}
                                         predicted               ={item5.predicted}
                                         scheduledArrivalTime    ={new Date(item5.scheduledArrivalTime).toLocaleTimeString()}
@@ -422,7 +443,7 @@ const LlegadasTest = () => {
                                         color                   ={item6.color} 
                                         routeShortName          ={item6.routeShortName} 
                                         tripHeadsign            ={item6.tripHeadsign}
-                                        spaceBox                ={440+(index6*164)}
+                                        spaceBox                ={initSpace+(index6*intermediateSpace)}
                                         // predicted               ={false}
                                         predicted               ={item6.predicted}
                                         scheduledArrivalTime    ={new Date(item6.scheduledArrivalTime).toLocaleTimeString()}
@@ -447,7 +468,7 @@ const LlegadasTest = () => {
                                         color                   ={item7.color} 
                                         routeShortName          ={item7.routeShortName} 
                                         tripHeadsign            ={item7.tripHeadsign}
-                                        spaceBox                ={440+(index7*164)}
+                                        spaceBox                ={initSpace+(index7*intermediateSpace)}
                                         // predicted               ={false}
                                         predicted               ={item7.predicted}
                                         scheduledArrivalTime    ={new Date(item7.scheduledArrivalTime).toLocaleTimeString()}
@@ -473,7 +494,7 @@ const LlegadasTest = () => {
                                         color                   ={item100.color} 
                                         routeShortName          ={item100.routeShortName} 
                                         tripHeadsign            ={item100.tripHeadsign}
-                                        spaceBox                ={440+(index100*164)}
+                                        spaceBox                ={initSpace+(index100*intermediateSpace)}
                                         // predicted               ={false}
                                         predicted               ={item100.predicted}
                                         scheduledArrivalTime    ={new Date(item100.scheduledArrivalTime).toLocaleTimeString()}

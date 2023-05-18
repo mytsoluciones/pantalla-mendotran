@@ -30,6 +30,8 @@ function Fecha(props) {
                     {/* 29 de septiembre del 2023 */}
                     {fecha[0]}
                 </div>
+                <div className='border_top'>
+                </div>
                 <div className='hora_header_top'>
                     {/* 19:45 */}
                     {fecha[1]}

@@ -1,8 +1,55 @@
 .publicidad_media{
     position: absolute;
-    width: 1050px;
-    height: 312px;
+    width: 1056px;
+    height: 336px;
     left: 15px;
-    top: 1595px; 
+    /* top: 1595px;  */
+    top: 1529px; 
     z-index: 1000;
+}
+
+.powered-footer{
+    position: absolute;
+    width: 1080px;
+    height: 43px;
+    left: 0px;
+    top: 1877px;
+    background: #414141;
+}
+
+
+.powered-footer-gob{
+    
+    position:   absolute;
+    width:      800px;
+    height:     23px;
+    right:      260px;
+    top:        7px;
+
+    font-family:    'Roboto';
+    font-style:     normal;
+    font-weight:    500;
+    font-size:      20px;
+    line-height:    23px;
+    display:        flex;
+    align-items:    center;
+    color:          #FFFFFF;
+}
+
+.powered-footer-myt{
+    
+    position:   absolute;
+    width:      270px;
+    height:     23px;
+    right:      4px;
+    top:        7px;
+
+    font-family:    'Roboto';
+    font-style:     normal;
+    font-weight:    500;
+    font-size:      20px;
+    line-height:    23px;
+    display:        flex;
+    align-items:    center;
+    color:          #FFFFFF;
 }

@@ -5,7 +5,7 @@
 .header_top_box{
     position: absolute;
     width: 1080px;
-    height: 140px;
+    height: 80px;
     left: 0px;
     top: 0px;
     z-index: 1000;
@@ -17,7 +17,7 @@
 .header_botom_box{
     position: absolute;
     width: 1080px;
-    height: 400px;
+    height: 255px;
     left: 0px;
     top: 0px;
     z-index: 950;
@@ -25,34 +25,46 @@
 }
 
 .fecha_header_top{
-    position: absolute;
-    width: 481px;
-    height: 47px;
-    left: 55px;
-    top: 47px;
+    position:   absolute;
+    width:      481px;
+    height:     47px;
+    left:       45px;
+    top:        20px;
 
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 40px;
-    line-height: 47px;
+    font-family:    'Roboto';
+    font-style:     normal;
+    font-weight:    500;
+    font-size:      30px;
+    line-height:    47px;
     /* identical to box height */
 
+}
+
+.border_top{
+    position:   absolute;
+    width:      64px;
+    height:     0px;
+    left:       830px;
+    top:        40px;
+
+    border: 3px solid rgba(0, 0, 0, 0.2);
+    filter: blur(1px);
+    transform: rotate(90deg);
 }
 
 .hora_header_top{
     float: right;
     position: absolute;
-    width: 197px;
-    height: 117px;
-    left: 750px;
+    width: 109px;
+    height: 64px;
+    left: 900px;
     /* left: 838px; */
     top: 12px;
 
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 500;
-    font-size: 100px;
+    font-size: 55px;
     line-height: 117px;
     display: flex;
     align-items: center;
@@ -60,32 +72,46 @@
 }
 
 .mendotran_logo{
-    position: absolute;
-    width:  589px;
-    height: 236px;
-    left:   42px;
-    top:    152px;
+    position:   absolute;
+    width:      567px;
+    height:     135px;
+    left:       4%;
+    top:        39%;
 }
 
 .clima{
-    float: right;
-    position: absolute;
-    width: auto;
-    height: 59px;
-    left: 750px;
-    top: 130px;
+    float:      right;
+    position:   absolute;
+    width:      auto;
+    height:     59px;
+    left:       900px;
+    top:        70px;
 
-    text-align: center;
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 40px;
-    line-height: 47px;
-
+    text-align:     center;
+    font-family:    'Roboto';
+    font-style:     normal;
+    font-weight:    500;
+    font-size:      40px;
+    line-height:    20px;
 }
 
 .icon_clima{
-    height: 150px;
-    width: 150px;
-    padding: 0;
+    height:     150px;
+    width:      150px;
+    padding:    0;
+}
+
+.temp_clima{
+    position:   absolute;
+    width:      71px;
+    height:     42px;
+    left:       17px;
+    top:        70px;
+
+    font-family:    'Roboto';
+    font-style:     normal;
+    font-weight:    500;
+    font-size:      50px;
+    line-height:    47px;
+    text-align:     right;
 }
