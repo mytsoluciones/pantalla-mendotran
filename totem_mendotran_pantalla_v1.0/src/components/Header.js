@@ -28,8 +28,8 @@ function Header() {
     //     })
         .then(response => {return response.json()})
         .then(data =>{
-            //if(data.cod >= 404){
-            if(data.cod == 10000){
+            if(data.cod >= 404){
+            // if(data.cod == 10000){
                 setValues(false)
             }else{
                 //console.log(data.weather[0].main)

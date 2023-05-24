@@ -29,7 +29,7 @@ const Llegada = (props) => {
                                         </div>
                                     </div>
                                 }
-                            <div className="stop_id">M12345</div>
+                            <div className="stop_id">{props.stopId}</div>
                             {/* <div className="stop_id">{props.stopId}</div> */}
                         </div>
 
@@ -37,9 +37,9 @@ const Llegada = (props) => {
                         { props.predicted ?
                             <div className="arrival_test">
                                 {/* {(((Math.round((props.delayTimePredicted/1000)/60)) < 0) || ((Math.round((props.delayTimePredicted/1000)/60)) === 0)) ? //el horario es negativo ? */}
-                                {(((Math.round(props.delayTimePredicted/1000)/60) < 2)) ? //el horario es negativo ?
+                                {(((Math.round(props.delayTimePredicted/1000)/60) < 3)) ? //el horario es negativo ?
                                     <div className='arrival_timer' style={{color: '#1E3480'}}>
-                                        <div className='arrival_timer_num_arribando'>ARRIBANDO</div>
+                                        <div className='arrival_timer_num_arribando'>Llegando</div>
                                         {/* <div className='arrival_timer_num'>0000</div> */}
                                         <div className='arrival_timer_min'>{null}</div>
                                         {/* <div className='arrival_timer_min'>1111</div> */}
@@ -56,7 +56,7 @@ const Llegada = (props) => {
                                 {(((Math.round((props.delayTimeScheduled/1000)/60)) < 0) || ((Math.round((props.delayTimeScheduled/1000)/60)) === 0) ) ?
                                     <div>
                                         <div className='arrival_timer' style={{color: '#686868'}}>
-                                            <div className='arrival_timer_num_arribando'>ARRIBANDO</div>
+                                            <div className='arrival_timer_num_arribando'>Llegando</div>
                                             <div className='arrival_timer_min_arribando'>{null}</div>
                                         </div>
                                     </div>

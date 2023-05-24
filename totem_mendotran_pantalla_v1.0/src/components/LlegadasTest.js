@@ -71,7 +71,7 @@ const LlegadasTest = () => {
         //console.log("Veo esto po serveer: "+ currentTime+" y esto por app: "+ testTime+" --- Diferencia: "+(currentTime-testTime))
 
         //? NOMBRE DE LA PARADA
-        arrivalsStopId    =  llegadas.data.references.stops[0].name
+        arrivalsStopId    =  llegadas.data.references.stops[0].name;
         console.log("Codigo de la parada: " + arrivalsStopId)
        
         //? CUANTAS PARADAS HAY?
@@ -294,7 +294,7 @@ const LlegadasTest = () => {
                                         spaceBox                ={initSpace+(index*intermediateSpace)}
                                         // predicted               ={false}
                                         predicted               ={item.predicted}
-                                        // stopId                  ={item.arrivalsStopId.toString()}
+                                        stopId                  = {arrivalsStopId}
                                         scheduledArrivalTime    ={new Date(item.scheduledArrivalTime).toLocaleTimeString()}
                                         statusArrivalTime       ={item.scheduledArrivalTime-item.predictedArrivalTime}
                                         predictedArrivalTime    ={new Date(item.predictedArrivalTime).toLocaleTimeString()}
@@ -497,6 +497,7 @@ const LlegadasTest = () => {
                                         spaceBox                ={initSpace+(index100*intermediateSpace)}
                                         // predicted               ={false}
                                         predicted               ={item100.predicted}
+                                        // stopId                  ={"M123456"}
                                         scheduledArrivalTime    ={new Date(item100.scheduledArrivalTime).toLocaleTimeString()}
                                         statusArrivalTime       ={item100.scheduledArrivalTime-item100.predictedArrivalTime}
                                         predictedArrivalTime    ={new Date(item100.predictedArrivalTime).toLocaleTimeString()}

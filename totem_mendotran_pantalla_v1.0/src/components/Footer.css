@@ -1,10 +1,11 @@
 .publicidad_media{
     position: absolute;
     width: 1056px;
+    /* height: 400px; */
     height: 336px;
-    left: 15px;
+    left: 12px;
     /* top: 1595px;  */
-    top: 1529px; 
+    top: 1525px; 
     z-index: 1000;
 }
 
@@ -23,12 +24,12 @@
     position:   absolute;
     width:      800px;
     height:     23px;
-    right:      260px;
+    right:      265px;
     top:        7px;
 
     font-family:    'Roboto';
     font-style:     normal;
-    font-weight:    500;
+    font-weight:    300;
     font-size:      20px;
     line-height:    23px;
     display:        flex;
@@ -37,16 +38,15 @@
 }
 
 .powered-footer-myt{
-    
     position:   absolute;
-    width:      270px;
+    width:      255px;
     height:     23px;
-    right:      4px;
+    right:      3px;
     top:        7px;
 
     font-family:    'Roboto';
     font-style:     normal;
-    font-weight:    500;
+    font-weight:    300;
     font-size:      20px;
     line-height:    23px;
     display:        flex;

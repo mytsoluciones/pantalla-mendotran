@@ -11,7 +11,7 @@ function Arrivals() {
     var arrivalsScreensMod 
     var space = 160  //distancia entre carteles = 
 
-    const URL = `https://mendotran.oba.visionblo.com/oba_api/api/where/arrivals-and-departures-for-stop/${process.env.REACT_APP_MENDOTRAN_PARADA_ID}.json?platform=mobile&v=&minutesBefore=0&minutesAfter=${process.env.REACT_APP_MENDOTRAN_INTERVALO_COSNULTA}&version=${process.env.REACT_APP_MENDOTRAN_VERSION}`
+    const URL = `https://mendotran.oba.visionblo.com/oba_api/api/where/arrivals-and-departures-for-stop/${process.env.REACT_APP_MENDOTRAN_PARADA_ID}.json?platform=mobile&v=&minutesBefore=0&minutesAfter=${process.env.REACT_APP_MENDOTRAN_INTERVALO_CONSULTA}&version=${process.env.REACT_APP_MENDOTRAN_VERSION}`
     
     //para debuguear las respuestas de mendotran api
     //const URL = `https://mendotran.oba.visionblo.com/oba_api/api/where/arrivals-and-departures-for-stop/1008_11111.json?platform=mobile&v=&minutesBefore=0&minutesAfter=20&version=1.0`
