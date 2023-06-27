@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './Arrivals.css'
 import Llegada  from './Llegada'
+import VideoFromBottom from './VideoFromBottom';
 
 const delay = ms => new Promise(
     resolve => setTimeout(resolve, ms)
@@ -8,16 +9,16 @@ const delay = ms => new Promise(
 
 const LlegadasTest = () => {
 
-    const [paradas, setParadas]         = useState([]);
-    const [paradas0, setParadas0]       = useState([]);
-    const [paradas1, setParadas1]       = useState([]);
-    const [paradas2, setParadas2]       = useState([]);
-    const [paradas3, setParadas3]       = useState([]);
-    const [paradas4, setParadas4]       = useState([]);
-    const [paradas5, setParadas5]       = useState([]);
-    const [paradas6, setParadas6]       = useState([]);
-    const [paradas7, setParadas7]       = useState([]);
-    const [paradas100, setParadas100]   = useState([]);
+    const [paradas, setParadas]             = useState([]);
+    const [paradas0, setParadas0]           = useState([]);
+    const [paradas1, setParadas1]           = useState([]);
+    const [paradas2, setParadas2]           = useState([]);
+    const [paradas3, setParadas3]           = useState([]);
+    const [paradas4, setParadas4]           = useState([]);
+    const [paradas5, setParadas5]           = useState([]);
+    const [paradas6, setParadas6]           = useState([]);
+    const [paradas7, setParadas7]           = useState([]);
+    const [paradas100, setParadas100]       = useState([]);
 
     const [modo0, setModo0]             = useState(false);
     const [modo1, setModo1]             = useState(false);
@@ -30,8 +31,8 @@ const LlegadasTest = () => {
     const [modo100, setModo100]         = useState(false);
 
     var screensDelay;
-    var currentTime;
     var arrivalsStopId;
+    const [publi, setPubli]             = useState(false);
     //const initSpace = 440; //para 7 paradas
     const initSpace = 300;
     const intermediateSpace = 150;
@@ -41,7 +42,7 @@ const LlegadasTest = () => {
             console.log('------------------- use-effect ----------------------------')
             getDatos()
             //mostrar()
-        }, 60000);
+        }, 30000);
         //setParadas(datos)
         return () => clearInterval(intervalLlegada);
     })
@@ -50,29 +51,15 @@ const LlegadasTest = () => {
         
         //! Descomentar para produccion
         const URL = `https://mendotran.oba.visionblo.com/oba_api/api/where/arrivals-and-departures-for-stop/${process.env.REACT_APP_MENDOTRAN_PARADA_ID}.json?platform=mobile&v=&minutesBefore=0&minutesAfter=${process.env.REACT_APP_MENDOTRAN_INTERVALO_CONSULTA}&version=${process.env.REACT_APP_MENDOTRAN_VERSION}`
-        //! Descomentar para test
-        // const URL = `https://mytsoluciones.com/desarrollo/Totem/json_files_test/mendotran_ovlobo.json`
+        
 
         //! Descomentar para produccion
         const   data        = await fetch(URL)
-        //! Descomentar para test
-        // const   data        = await fetch(URL,{
-        //     'mode': 'no-cors',
-        //     'headers':{
-        //         'Access-Control-Allow-Origin': '*',
-        //     }
-        // })
         const   llegadas    = await data.json()
 
-        //? TIEMPO DE CONSULTA
-        //currentTime = llegadas.currentTime
-        //const testTime = Math.round(new Date().getTime());
-        //console.log("La consulta se realizó a las: "+ new Date(currentTime)+" segun ovlobo y  a las: "+ new Date(testTime)+" segun mi app")
-        //console.log("Veo esto po serveer: "+ currentTime+" y esto por app: "+ testTime+" --- Diferencia: "+(currentTime-testTime))
-
         //? NOMBRE DE LA PARADA
-        arrivalsStopId    =  llegadas.data.references.stops[0].name;
-        console.log("Codigo de la parada: " + arrivalsStopId)
+        // arrivalsStopId    =  llegadas.data.references.stops[0].name;
+        // console.log("Codigo de la parada: " + arrivalsStopId)
        
         //? CUANTAS PARADAS HAY?
         const arrivalsNumber    =  llegadas.data.entry.arrivalsAndDepartures.length
@@ -96,21 +83,44 @@ const LlegadasTest = () => {
         console.log("El totem tendra " + screensTotal + " pantallas.")
        
         //? CUANTO TIEMPO SE MOSTRARÁ CADA PANTALLA?
-        screensDelay = Math.round(59/screensTotal)*1000 
+        screensDelay = Math.round(29/screensTotal)*1000 
+
+        if(screensDelay > 10000){
+            screensDelay = 10000;
+        }
         console.log("cada pantalla se mostrará durante " + (screensDelay/1000) + " segundos.")
 
         //todo LLENAMOS LOS ARREGLOS CON 7 ARRIBOS COMO MÁXIMO POR PANTALLA
         //setParadas(llegadas.data.entry.arrivalsAndDepartures.sort((a,b)=>a.scheduledArrivalTime - b.scheduledArrivalTime))
-        setParadas(llegadas.data.entry.arrivalsAndDepartures)
+        // setParadasorigin(llegadas.data.entry.arrivalsAndDepartures)
+        setParadas(llegadas.data.entry.arrivalsAndDepartures.map(objeto => ({
+            ...objeto,
+            nuevoElemento: arrivalsStopId
+          })))
+        
+        //? ordenar paradas por tiempo
+        // paradas.sort((a,b) =>{
+        //     if(a.scheduledArrivalTime < b.scheduledArrivalTime){
+        //         return -1;
+        //     }
+        //     if(a.scheduledArrivalTime > b.scheduledArrivalTime){
+        //         return 1;
+        //     }
+        //     return 0;
+        // })
+        
+        //? ordenar paradas por numero de linea
         paradas.sort((a,b) =>{
-            if(a.scheduledArrivalTime < b.scheduledArrivalTime){
+            if(a.routeShortName < b.routeShortName){
                 return -1;
             }
-            if(a.scheduledArrivalTime > b.scheduledArrivalTime){
+            if(a.routeShortName > b.routeShortName){
                 return 1;
             }
             return 0;
         })
+
+
         //console.log(llegadas.data.entry.arrivalsAndDepartures.sort((a,b) => a.scheduledArrivalTime - b.scheduledArrivalTime))
         console.log(paradas);
         //setParadas(llegadas.data.entry.arrivalsAndDepartures.sort((a,b)=>a.scheduledArrivalTime.toLocalCompare(b.scheduledArrivalTime)))
@@ -119,22 +129,28 @@ const LlegadasTest = () => {
             for (let pantalla = 0; pantalla < screensFull; pantalla++) {
                 armarParadas(pantalla)
                 await delay(screensDelay)
-                // await delay(screensDelay)
             }
         }
         
         if(screensPart !== 0){
             armarParadas(100,screensPart,screensFull)
             await delay(screensDelay)
-            // await delay(screensDelay)
         }
 
-        
-
-        // setParadas(llegadas.data.entry.arrivalsAndDepartures.sort((a,b)=>a.llegadas.data.entry.arrivalsAndDepartures.scheduledArrivalTime.toLocalCompare(b.a.llegadas.data.entry.arrivalsAndDepartures.scheduledArrivalTime)))
-
-        // setParadas0(llegadas.data.entry.arrivalsAndDepartures)        
-        //console.log(llegadas.data.entry.arrivalsAndDepartures.sort((a,b) => a.scheduledArrivalTime - b.scheduledArrivalTime))
+        if(screensDelay === 10000){
+            setModo0(false)
+            setModo1(false)
+            setModo2(false)
+            setModo3(false)
+            setModo4(false)
+            setModo5(false)
+            setModo6(false)
+            setModo7(false)
+            setModo100(false)
+            setPubli(true);
+            console.log("aca se debería ver la publicidad durante: "+(29000-(10000*screensTotal))/1000);
+            await delay(29000-(10000*screensTotal));
+        }
 
     }
 
@@ -154,6 +170,7 @@ const LlegadasTest = () => {
                     setModo6(false)
                     setModo7(false)
                     setModo100(false)
+                    setPubli(false);
                     //setParadas1(paradas0.map(function(parada0, index){ return (index <= 6)?  console.log(parada0) : count++;}))   
                     break;
                 case 1:
@@ -169,6 +186,7 @@ const LlegadasTest = () => {
                     setModo6(false)
                     setModo7(false)
                     setModo100(false)
+                    setPubli(false);
                     break;
                 case 2:
                     console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 8 paradas.")
@@ -183,6 +201,7 @@ const LlegadasTest = () => {
                     setModo6(false)
                     setModo7(false)
                     setModo100(false)
+                    setPubli(false);
                     break;
                 case 3:
                     console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 8 paradas.")
@@ -197,6 +216,7 @@ const LlegadasTest = () => {
                     setModo6(false)
                     setModo7(false)
                     setModo100(false)
+                    setPubli(false);
                     break;
                 case 4:
                     console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 8 paradas.")
@@ -211,6 +231,7 @@ const LlegadasTest = () => {
                     setModo6(false)
                     setModo7(false)
                     setModo100(false)
+                    setPubli(false);
                     break;
                 case 5:
                     console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 8 paradas.")
@@ -225,6 +246,7 @@ const LlegadasTest = () => {
                     setModo6(false)
                     setModo7(false)
                     setModo100(false)
+                    setPubli(false);
                     break;
                 case 6:
                     console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 8 paradas.")
@@ -239,6 +261,7 @@ const LlegadasTest = () => {
                     setModo6(true)
                     setModo7(false)
                     setModo100(false)
+                    setPubli(false);
                     break;
                 case 7:
                     console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 8 paradas.")
@@ -253,6 +276,7 @@ const LlegadasTest = () => {
                     setModo6(false)
                     setModo7(true)
                     setModo100(false)
+                    setPubli(false);
                     break;
                 case 100:
                     console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré: "+ screensPart + " paradas.")
@@ -271,6 +295,7 @@ const LlegadasTest = () => {
                     setModo6(false)
                     setModo7(false)
                     setModo100(true)
+                    setPubli(false);
                     break;
             
                 default:
@@ -293,8 +318,9 @@ const LlegadasTest = () => {
                                         tripHeadsign            ={item.tripHeadsign}
                                         spaceBox                ={initSpace+(index*intermediateSpace)}
                                         // predicted               ={false}
+                                        //stopId                ={"M2045"}
                                         predicted               ={item.predicted}
-                                        stopId                  = {arrivalsStopId}
+                                        stopId                  ={item.nuevoElemento}//{JSON.stringify(screensDelay)}//{"M2045"}
                                         scheduledArrivalTime    ={new Date(item.scheduledArrivalTime).toLocaleTimeString()}
                                         statusArrivalTime       ={item.scheduledArrivalTime-item.predictedArrivalTime}
                                         predictedArrivalTime    ={new Date(item.predictedArrivalTime).toLocaleTimeString()}
@@ -303,7 +329,8 @@ const LlegadasTest = () => {
                                         
                                     />
                                 </div>
-                            )).sort((a,b) => a.scheduledArrivalTime - b.scheduledArrivalTime)}
+                            ))}
+                            {/* .sort((a,b) => a.scheduledArrivalTime - b.scheduledArrivalTime)} */}
                         </ul>
                     </div>
                     :
@@ -321,6 +348,7 @@ const LlegadasTest = () => {
                                         spaceBox                ={initSpace+(index1*intermediateSpace)}
                                         // predicted               ={false}
                                         predicted               ={item1.predicted}
+                                        stopId                  ={item1.nuevoElemento}
                                         scheduledArrivalTime    ={new Date(item1.scheduledArrivalTime).toLocaleTimeString()}
                                         statusArrivalTime       ={item1.scheduledArrivalTime-item1.predictedArrivalTime}
                                         predictedArrivalTime    ={new Date(item1.predictedArrivalTime).toLocaleTimeString()}
@@ -328,7 +356,8 @@ const LlegadasTest = () => {
                                         delayTimeScheduled      ={item1.scheduledArrivalTime - new Date()}
                                     />
                                 </div>
-                            )).sort((a,b) => a.scheduledArrivalTime - b.scheduledArrivalTime)}
+                            ))}
+                            {/* .sort((a,b) => a.scheduledArrivalTime - b.scheduledArrivalTime)} */}
                         </ul>
                     </div>
                     :
@@ -346,6 +375,7 @@ const LlegadasTest = () => {
                                         spaceBox                ={initSpace+(index2*intermediateSpace)}
                                         // predicted               ={false}
                                         predicted               ={item2.predicted}
+                                        stopId                  ={item2.nuevoElemento}
                                         scheduledArrivalTime    ={new Date(item2.scheduledArrivalTime).toLocaleTimeString()}
                                         statusArrivalTime       ={item2.scheduledArrivalTime-item2.predictedArrivalTime}
                                         predictedArrivalTime    ={new Date(item2.predictedArrivalTime).toLocaleTimeString()}
@@ -353,7 +383,8 @@ const LlegadasTest = () => {
                                         delayTimeScheduled      ={item2.scheduledArrivalTime - new Date()}
                                     />
                                 </div>
-                            )).sort((a,b) => a.scheduledArrivalTime - b.scheduledArrivalTime)}
+                            ))}
+                            {/* .sort((a,b) => a.scheduledArrivalTime - b.scheduledArrivalTime)} */}
                         </ul>
                     </div>
                     :
@@ -371,6 +402,7 @@ const LlegadasTest = () => {
                                         spaceBox                ={initSpace+(index3*intermediateSpace)}
                                         // predicted               ={false}
                                         predicted               ={item3.predicted}
+                                        stopId                  ={item3.nuevoElemento}
                                         scheduledArrivalTime    ={new Date(item3.scheduledArrivalTime).toLocaleTimeString()}
                                         statusArrivalTime       ={item3.scheduledArrivalTime-item3.predictedArrivalTime}
                                         predictedArrivalTime    ={new Date(item3.predictedArrivalTime).toLocaleTimeString()}
@@ -378,7 +410,8 @@ const LlegadasTest = () => {
                                         delayTimeScheduled      ={item3.scheduledArrivalTime - new Date()}
                                     />
                                 </div>
-                            )).sort((a,b) => a.scheduledArrivalTime - b.scheduledArrivalTime)}
+                            ))}
+                            {/* .sort((a,b) => a.scheduledArrivalTime - b.scheduledArrivalTime)} */}
                         </ul>
                     </div>
                     :
@@ -396,6 +429,7 @@ const LlegadasTest = () => {
                                         spaceBox                ={initSpace+(index4*intermediateSpace)}
                                         // predicted               ={false}
                                         predicted               ={item4.predicted}
+                                        stopId                  ={item4.nuevoElemento}
                                         scheduledArrivalTime    ={new Date(item4.scheduledArrivalTime).toLocaleTimeString()}
                                         statusArrivalTime       ={item4.scheduledArrivalTime-item4.predictedArrivalTime}
                                         predictedArrivalTime    ={new Date(item4.predictedArrivalTime).toLocaleTimeString()}
@@ -403,7 +437,8 @@ const LlegadasTest = () => {
                                         delayTimeScheduled      ={item4.scheduledArrivalTime - new Date()}
                                     />
                                 </div>
-                            )).sort((a,b) => a.scheduledArrivalTime - b.scheduledArrivalTime)}
+                            ))}
+                            {/* .sort((a,b) => a.scheduledArrivalTime - b.scheduledArrivalTime)} */}
                         </ul>
                     </div>
                     :
@@ -421,6 +456,7 @@ const LlegadasTest = () => {
                                         spaceBox                ={initSpace+(index5*intermediateSpace)}
                                         // predicted               ={false}
                                         predicted               ={item5.predicted}
+                                        stopId                  ={item5.nuevoElemento}
                                         scheduledArrivalTime    ={new Date(item5.scheduledArrivalTime).toLocaleTimeString()}
                                         statusArrivalTime       ={item5.scheduledArrivalTime-item5.predictedArrivalTime}
                                         predictedArrivalTime    ={new Date(item5.predictedArrivalTime).toLocaleTimeString()}
@@ -428,7 +464,8 @@ const LlegadasTest = () => {
                                         delayTimeScheduled      ={item5.scheduledArrivalTime - new Date()}
                                     />
                                 </div>
-                            )).sort((a,b) => a.scheduledArrivalTime - b.scheduledArrivalTime)}
+                            ))}
+                            {/* .sort((a,b) => a.scheduledArrivalTime - b.scheduledArrivalTime)} */}
                         </ul>
                     </div>
                     :
@@ -446,6 +483,7 @@ const LlegadasTest = () => {
                                         spaceBox                ={initSpace+(index6*intermediateSpace)}
                                         // predicted               ={false}
                                         predicted               ={item6.predicted}
+                                        stopId                  ={item6.nuevoElemento}
                                         scheduledArrivalTime    ={new Date(item6.scheduledArrivalTime).toLocaleTimeString()}
                                         statusArrivalTime       ={item6.scheduledArrivalTime-item6.predictedArrivalTime}
                                         predictedArrivalTime    ={new Date(item6.predictedArrivalTime).toLocaleTimeString()}
@@ -453,7 +491,8 @@ const LlegadasTest = () => {
                                         delayTimeScheduled      ={item6.scheduledArrivalTime - new Date()}
                                     />
                                 </div>
-                            )).sort((a,b) => a.scheduledArrivalTime - b.scheduledArrivalTime)}
+                            ))}
+                            {/* .sort((a,b) => a.scheduledArrivalTime - b.scheduledArrivalTime)} */}
                         </ul>
                     </div>
                     :
@@ -471,6 +510,7 @@ const LlegadasTest = () => {
                                         spaceBox                ={initSpace+(index7*intermediateSpace)}
                                         // predicted               ={false}
                                         predicted               ={item7.predicted}
+                                        stopId                  ={item7.nuevoElemento}
                                         scheduledArrivalTime    ={new Date(item7.scheduledArrivalTime).toLocaleTimeString()}
                                         statusArrivalTime       ={item7.scheduledArrivalTime-item7.predictedArrivalTime}
                                         predictedArrivalTime    ={new Date(item7.predictedArrivalTime).toLocaleTimeString()}
@@ -479,7 +519,8 @@ const LlegadasTest = () => {
                                     />
                                 </div>
                                 
-                            )).sort((a,b) => a.scheduledArrivalTime - b.scheduledArrivalTime)}
+                            ))}
+                            {/* .sort((a,b) => a.scheduledArrivalTime - b.scheduledArrivalTime)} */}
                         </ul>
                     </div>
                     :
@@ -497,7 +538,7 @@ const LlegadasTest = () => {
                                         spaceBox                ={initSpace+(index100*intermediateSpace)}
                                         // predicted               ={false}
                                         predicted               ={item100.predicted}
-                                        // stopId                  ={"M123456"}
+                                        stopId                  ={item100.nuevoElemento}
                                         scheduledArrivalTime    ={new Date(item100.scheduledArrivalTime).toLocaleTimeString()}
                                         statusArrivalTime       ={item100.scheduledArrivalTime-item100.predictedArrivalTime}
                                         predictedArrivalTime    ={new Date(item100.predictedArrivalTime).toLocaleTimeString()}
@@ -505,9 +546,16 @@ const LlegadasTest = () => {
                                         delayTimeScheduled      ={item100.scheduledArrivalTime - new Date()}
                                     />
                                 </div>
-                            )).sort((a,b) => a.scheduledArrivalTime - b.scheduledArrivalTime)}
+                            ))}
+                            {/* .sort((a,b) => a.scheduledArrivalTime - b.scheduledArrivalTime)} */}
                         </ul>
                     </div>
+                    :
+                    null}
+                    {(publi)?
+                        <div>
+                            <VideoFromBottom/>
+                        </div>
                     :
                     null}
             </div>

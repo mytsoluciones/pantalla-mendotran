@@ -11,6 +11,7 @@ import Arrivals from './components/Arrivals';
 import Fecha from './components/Fecha';
 import Llegadas from './components/Llegadas';
 import LlegadasTest from './components/LlegadasTest';
+import LlegadasMultiArrival from './components/LlegadasMultiArrival';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -19,7 +20,8 @@ root.render(
     <Header />
     <App />
     <Fecha />
-    <LlegadasTest />
+    <LlegadasMultiArrival/>
+    {/* <LlegadasTest /> */}
     {/* <Llegadas /> */}
     {/* <Arrivals /> */}
     <Footer />
