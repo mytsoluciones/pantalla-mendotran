@@ -34,8 +34,9 @@ const LlegadasMultiArrival = () => {
     var arrivalsStopId0;
     var arrivalsStopId1;
     const [publi, setPubli]             = useState(false);
+    const [urls, setUrls]               = useState([]);
     //const initSpace = 440; //para 7 paradas
-    const initSpace = 300;
+    const initSpace         = 300;
     const intermediateSpace = 150;
 
     useEffect(() => {
@@ -51,30 +52,43 @@ const LlegadasMultiArrival = () => {
     const getDatos = async () =>{
         
         try{
-            const url0 = `https://mendotran.oba.visionblo.com/oba_api/api/where/arrivals-and-departures-for-stop/${process.env.REACT_APP_MENDOTRAN_PARADA_ID0}.json?platform=mobile&v=&minutesBefore=0&minutesAfter=${process.env.REACT_APP_MENDOTRAN_INTERVALO_CONSULTA}&version=${process.env.REACT_APP_MENDOTRAN_VERSION}`;
+            //hacer n solicitudes a n urls utilizadondo los numeros de n paradas
+            for(let i=0; i<process.env.REACT_APP_ARRIVALS_AMOUNT;i++){
+                const arrivalVariable   = `REACT_APP_MENDOTRAN_PARADA_ID${i}`;
+                const arrivalValue      = process.env[arrivalVariable];
+                const urlName           = `https://mendotran.oba.visionblo.com/oba_api/api/where/arrivals-and-departures-for-stop/${arrivalValue}.json?platform=mobile&v=&minutesBefore=0&minutesAfter=${process.env.REACT_APP_MENDOTRAN_INTERVALO_CONSULTA}&version=${process.env.REACT_APP_MENDOTRAN_VERSION}`;
 
+                setUrls(...urlName, urlName);
+            }
+            console.log(urls);
+            
+            //console.log(urls);
+
+            const url0 = `https://mendotran.oba.visionblo.com/oba_api/api/where/arrivals-and-departures-for-stop/${process.env.REACT_APP_MENDOTRAN_PARADA_ID0}.json?platform=mobile&v=&minutesBefore=0&minutesAfter=${process.env.REACT_APP_MENDOTRAN_INTERVALO_CONSULTA}&version=${process.env.REACT_APP_MENDOTRAN_VERSION}`;
+            
             const url1 = `https://mendotran.oba.visionblo.com/oba_api/api/where/arrivals-and-departures-for-stop/${process.env.REACT_APP_MENDOTRAN_PARADA_ID1}.json?platform=mobile&v=&minutesBefore=0&minutesAfter=${process.env.REACT_APP_MENDOTRAN_INTERVALO_CONSULTA}&version=${process.env.REACT_APP_MENDOTRAN_VERSION}`;
 
-            const [result1, result2] = await Promise.all([
+
+            const algo = await Promise.all([
                 fetch(url0).then(response => response.json()),
                 fetch(url1).then(response => response.json())
             ]);
 
             //? NOMBRE DE LA PARADA
-            arrivalsStopId0    =  result1.data.references.stops[0].name;
-            arrivalsStopId1    =  result2.data.references.stops[0].name;
-            console.log("Codigos de parada: " + arrivalsStopId0+" - "+arrivalsStopId1)
+            arrivalsStopId0    =  algo[0].data.references.stops[0].name;
+            arrivalsStopId1    =  algo[1].data.references.stops[0].name;
+            console.log("Codigos de parada: "+arrivalsStopId0+" - "+arrivalsStopId1)
 
             //todo LLENAMOS LOS ARREGLOS CON 7 ARRIBOS COMO MÁXIMO POR PANTALLA
-            setParadas(result1.data.entry.arrivalsAndDepartures.map(objeto => ({
+            setParadas(algo[0].data.entry.arrivalsAndDepartures.map(objeto => ({
                 ...objeto,
                 nuevoElemento: arrivalsStopId0
               })))
             
-            const llegadas      = [...result1.data.entry.arrivalsAndDepartures.map(objeto => ({
+            const llegadas      = [...algo[0].data.entry.arrivalsAndDepartures.map(objeto => ({
                 ...objeto,
                 nuevoElemento: arrivalsStopId0
-              })), ...result2.data.entry.arrivalsAndDepartures.map(objeto => ({
+              })), ...algo[1].data.entry.arrivalsAndDepartures.map(objeto => ({
                 ...objeto,
                 nuevoElemento: arrivalsStopId1
               }))];
@@ -108,7 +122,6 @@ const LlegadasMultiArrival = () => {
                 screensDelay = 10000;
             }
             console.log("cada pantalla se mostrará durante " + (screensDelay/1000) + " segundos.")
-
 
             console.log(paradas)
 

@@ -29,7 +29,8 @@ const Llegada = (props) => {
                                         </div>
                                     </div>
                                 }
-                            <div className="stop_id">{props.stopId}</div>{console.log("Llegada: "+props.props)}
+                            <div className="stop_id">{props.stopId}</div>
+                            {/* {console.log("Llegada: "+props.props)} */}
                             {/* <div className="stop_id">{props.stopId}</div> */}
                         </div>
 
