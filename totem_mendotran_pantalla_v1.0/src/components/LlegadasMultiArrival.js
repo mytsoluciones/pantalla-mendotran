@@ -36,15 +36,15 @@ const LlegadasMultiArrival = () => {
     const [publi, setPubli]             = useState(false);
     const [urls, setUrls]               = useState([]);
     //const initSpace = 440; //para 7 paradas
-    const initSpace         = 300;
-    const intermediateSpace = 150;
+    const initSpace         = 280;
+    const intermediateSpace = 152;
 
     useEffect(() => {
         const intervalLlegada = setInterval(()=> {
             console.log('------------------- use-effect ----------------------------')
             getDatos()
             //mostrar()
-        }, 30000);
+        }, 60000);
         //setParadas(datos)
         return () => clearInterval(intervalLlegada);
     })
@@ -116,7 +116,7 @@ const LlegadasMultiArrival = () => {
             console.log("El totem tendra " + screensTotal + " pantallas.")
 
             //? CUANTO TIEMPO SE MOSTRARÁ CADA PANTALLA?
-            screensDelay = Math.round(29/screensTotal)*1000 
+            screensDelay = Math.round(59/screensTotal)*1000 
 
             if(screensDelay > 10000){
                 screensDelay = 10000;
@@ -148,7 +148,7 @@ const LlegadasMultiArrival = () => {
             await delay(screensDelay)
         }
 
-        if(screensDelay === 10000){
+        if(screensDelay > 10000){
             setModo0(false)
             setModo1(false)
             setModo2(false)
@@ -159,8 +159,11 @@ const LlegadasMultiArrival = () => {
             setModo7(false)
             setModo100(false)
             setPubli(true);
-            console.log("aca se debería ver la publicidad durante: "+(29000-(10000*screensTotal))/1000);
-            await delay(29000-(10000*screensTotal));
+            console.log("aca se debería ver la publicidad durante: "+(59000-(10000*screensTotal))/1000);
+            await delay(59000-(10000*screensTotal));
+        }else{
+            setPubli(false);
+            console.log("La publicidad no debería estar ");
         }
 
         }catch(error){

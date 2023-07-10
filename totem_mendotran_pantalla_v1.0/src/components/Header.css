@@ -5,10 +5,11 @@
 .header_top_box{
     position: absolute;
     width: 1080px;
-    height: 80px;
+    height: 70px;
     left: 0px;
     top: 0px;
     z-index: 1000;
+    /* background: #0000; */
     background: #C80F2E;
     box-shadow: 0px 8px 4px rgba(0, 0, 0, 0.15);
     border-radius: 0px;
@@ -17,10 +18,11 @@
 .header_botom_box{
     position: absolute;
     width: 1080px;
-    height: 255px;
+    height: 235px;
     left: 0px;
     top: 0px;
     z-index: 950;
+    /* background: black; */
     background: #CF112B;
 }
 
@@ -28,13 +30,13 @@
     position:   absolute;
     width:      481px;
     height:     47px;
-    left:       45px;
-    top:        20px;
+    left:       47px;
+    top:        12px;
 
     font-family:    'Roboto';
     font-style:     normal;
     font-weight:    500;
-    font-size:      30px;
+    font-size:      25px;
     line-height:    47px;
     /* identical to box height */
 
@@ -42,11 +44,11 @@
 
 .border_top{
     position:   absolute;
-    width:      64px;
+    width:      37px;
     height:     0px;
-    left:       830px;
-    top:        40px;
-    border: 3px solid rgba(0, 0, 0, 0.2);
+    left:       855px;
+    top:        35px;
+    border: 3px solid rgba(0, 0, 0, 0.13);
     filter: blur(1px);
     transform: rotate(90deg);
 }
@@ -56,14 +58,14 @@
     position: absolute;
     width: 109px;
     height: 64px;
-    left: 900px;
+    left: 925px;
     /* left: 838px; */
-    top: 12px;
+    top: 4px;
 
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 500;
-    font-size: 55px;
+    font-size: 45px;
     line-height: 117px;
     display: flex;
     align-items: center;
@@ -72,10 +74,10 @@
 
 .mendotran_logo{
     position:   absolute;
-    width:      567px;
-    height:     135px;
+    width:      542px;
+    height:     115px;
     left:       3%;
-    top:        39%;
+    top:        40%;
 }
 
 .clima{
@@ -85,7 +87,7 @@
     width:      auto;
     height:     59px;
     left:       910px;
-    top:        80px;
+    top:        67px;
 
     text-align:     center;
     font-family:    'Roboto';
@@ -99,14 +101,14 @@
     height:         120px;
     width:          120px;
     padding:        0;
-    margin-left:    17px;
+    margin-left:    23px;
 }
 
 .temp_clima{
     position:   absolute;
     width:      71px;
     height:     42px;
-    left:       30px;
+    left:       39px;
     top:        55px;
 
     font-family:    'Roboto';

@@ -4,14 +4,10 @@ import './Header.css'
 function Fecha(props) {
     const [fecha, setFecha] = useState('')
     const data = []
-    //var now
 
     useEffect(()=> {
 
         const interval = setInterval(()=> {
-            //today = new Date().toLocaleDateString();
-            // now = new Date().toLocaleTimeString();
-            //console.log(new Date().toLocaleTimeString())
             data[0] = new Date().toLocaleDateString()
             data[1] = new Date().toLocaleTimeString()
             data[1] = data[1].substring(0, data[1].length - 3)
@@ -41,8 +37,6 @@ function Fecha(props) {
         </>
     );
 }
-
-//setInterval(Fecha, 10000)
 
 export default Fecha;
 

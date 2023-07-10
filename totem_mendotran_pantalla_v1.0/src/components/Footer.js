@@ -1,6 +1,6 @@
 import React from 'react'
 import './Footer.css'
-import publicidad from '../images/publicidad/media/vendimia.jpg'
+import publicidad from '../images/publicidad/media/img_chica.jpg'
 
 function Footer() {
   return (

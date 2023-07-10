@@ -15,20 +15,7 @@
 
 .publicidad_gif{
     animation: fadeIn 3s ease;
-    /* position: absolute;
-    bottom: 0;
-    animation: image-appear 1s forwards; */
 }
-
-  
-  /* @keyframes video-appear {
-    0% {
-      transform: translateY(100%);
-    }
-    100% {
-      transform: translateY(0);
-    }
-  } */
 
 .publicidad_gif{
     position: absolute;

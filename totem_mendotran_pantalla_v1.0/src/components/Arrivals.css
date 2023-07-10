@@ -3,6 +3,7 @@
     z-index: 510;
 }
 
+
 @keyframes fadeIn{
     0% { opacity: 0;}
 }
@@ -28,9 +29,11 @@
 .arrival_color{
     /* position: absolute; */
     width: 45px;
-    height: 136px;
+    height: 133px;
+    /* height: 136px; */
     left: 45px;
     top: 445px;
+    /* top: 445px; */
     border-radius: 20px 0px 0px 20px;
 }
 

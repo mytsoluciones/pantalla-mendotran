@@ -82,7 +82,7 @@ function Header() {
                         </div>
                         
                     ) : (
-                        <p className='temp_clima'>no hay una pija</p>
+                        <p className='temp_clima'></p>
                     )}
                 </div>
           </div>

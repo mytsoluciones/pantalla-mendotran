@@ -1,12 +1,12 @@
 .publicidad_media{
     position: absolute;
+    border-radius: 8px;
     width: 1056px;
-    /* height: 400px; */
     height: 336px;
     left: 12px;
-    /* top: 1595px;  */
     top: 1525px; 
     z-index: 1000;
+    box-shadow: 0px 0px 0px 0px rgba(0.0, 0.0, 0.0, 0.2);
 }
 
 .powered-footer{
