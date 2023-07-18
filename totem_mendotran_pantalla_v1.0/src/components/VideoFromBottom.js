@@ -9,7 +9,7 @@ class VideoFromBottom extends React.Component {
     return (
       <>
         <div>
-          <video className="publicidad_gif" loop muted autoplay="autoplay">
+          <video className="publicidad_emergente" loop muted autoplay="autoplay">
             <source src={publiVideo} type="video/mp4"/>
           </video>
         </div>

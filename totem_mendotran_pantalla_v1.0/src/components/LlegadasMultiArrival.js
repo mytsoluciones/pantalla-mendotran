@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './Arrivals.css'
 import Llegada  from './Llegada'
 import VideoFromBottom from './VideoFromBottom';
+import Loading from './Loading';
 
 const delay = ms => new Promise(
     resolve => setTimeout(resolve, ms)
@@ -34,10 +35,25 @@ const LlegadasMultiArrival = () => {
     var arrivalsStopId0;
     var arrivalsStopId1;
     const [publi, setPubli]             = useState(false);
-    const [urls, setUrls]               = useState([]);
+    const [activePubli, setActivePubli] = useState(false);
+    const [loading, setLoading]         = useState(false);
+    
+    //? para funcion que hace las consultas de URLS
+    
+    const respTemp      = [];  
+    const [resp, setResp]       = useState([]);
+    const [urls, setUrls]       = useState([]);
+    const [arriId, setArriId]   = useState([]);
+    const urlsTemp      = [];
+    //const urlsFinal     = [];
+    //const [urls, setUrls]               = useState([]);
+    
+    //? Para manejar el punto inicial de las paradas y la cion entre ambas
     //const initSpace = 440; //para 7 paradas
     const initSpace         = 280;
     const intermediateSpace = 152;
+
+   
 
     useEffect(() => {
         const intervalLlegada = setInterval(()=> {
@@ -47,55 +63,98 @@ const LlegadasMultiArrival = () => {
         }, 60000);
         //setParadas(datos)
         return () => clearInterval(intervalLlegada);
-    })
+    });
 
-    const getDatos = async () =>{
+    const getDatos = async () =>{ 
+
+        setUrls([]);
+        //todo armar arreglo de paradas
+        for(let i=0; i < process.env.REACT_APP_ARRIVALS_AMOUNT;i++){
+            //Armamos los urls desde los datos traidos de la web
+            const arrivalVariable   = `REACT_APP_MENDOTRAN_PARADA_ID${i}`;
+            const arrivalValue      = process.env[arrivalVariable];
+            const urlName           = `https://mendotran.oba.visionblo.com/oba_api/api/where/arrivals-and-departures-for-stop/${arrivalValue}.json?platform=mobile&v=&minutesBefore=0&minutesAfter=${process.env.REACT_APP_MENDOTRAN_INTERVALO_CONSULTA}&version=${process.env.REACT_APP_MENDOTRAN_VERSION}`;
+            //Almacenamos los urls en un arreglo
+            setUrls(urlsPrev=>[...urlsPrev, urlName])
+        }
         
         try{
-            //hacer n solicitudes a n urls utilizadondo los numeros de n paradas
-            for(let i=0; i<process.env.REACT_APP_ARRIVALS_AMOUNT;i++){
-                const arrivalVariable   = `REACT_APP_MENDOTRAN_PARADA_ID${i}`;
-                const arrivalValue      = process.env[arrivalVariable];
-                const urlName           = `https://mendotran.oba.visionblo.com/oba_api/api/where/arrivals-and-departures-for-stop/${arrivalValue}.json?platform=mobile&v=&minutesBefore=0&minutesAfter=${process.env.REACT_APP_MENDOTRAN_INTERVALO_CONSULTA}&version=${process.env.REACT_APP_MENDOTRAN_VERSION}`;
-
-                setUrls(...urlName, urlName);
-            }
+            // const data2 = await fetch(urlName).then(response => response.json());
+            console.log("Arreglo de urls a consultar: ");
             console.log(urls);
-            
-            //console.log(urls);
 
-            const url0 = `https://mendotran.oba.visionblo.com/oba_api/api/where/arrivals-and-departures-for-stop/${process.env.REACT_APP_MENDOTRAN_PARADA_ID0}.json?platform=mobile&v=&minutesBefore=0&minutesAfter=${process.env.REACT_APP_MENDOTRAN_INTERVALO_CONSULTA}&version=${process.env.REACT_APP_MENDOTRAN_VERSION}`;
-            
-            const url1 = `https://mendotran.oba.visionblo.com/oba_api/api/where/arrivals-and-departures-for-stop/${process.env.REACT_APP_MENDOTRAN_PARADA_ID1}.json?platform=mobile&v=&minutesBefore=0&minutesAfter=${process.env.REACT_APP_MENDOTRAN_INTERVALO_CONSULTA}&version=${process.env.REACT_APP_MENDOTRAN_VERSION}`;
-
-
-            const algo = await Promise.all([
-                fetch(url0).then(response => response.json()),
-                fetch(url1).then(response => response.json())
-            ]);
+            console.log("Arreglos con responses: ");
+            const dataTemp  = await Promise.all(urls.map(url => fetch(url)));
+            const data      = await Promise.all(dataTemp.map(response => response.json()));
+            console.log(data);
 
             //? NOMBRE DE LA PARADA
-            arrivalsStopId0    =  algo[0].data.references.stops[0].name;
-            arrivalsStopId1    =  algo[1].data.references.stops[0].name;
-            console.log("Codigos de parada: "+arrivalsStopId0+" - "+arrivalsStopId1)
+            setArriId([]);
+            for(let i=0;i<data.length;i++){
+                setArriId(arrIdPrev=>[...arrIdPrev, data[i].data.references.stops[0].name]);
+            }
+            console.log("Estos son los numeros de las paradas consultadas: ");
+            console.log(arriId);
+
+            //const url0 = `https://mendotran.oba.visionblo.com/oba_api/api/where/arrivals-and-departures-for-stop/${process.env.REACT_APP_MENDOTRAN_PARADA_ID0}.json?platform=mobile&v=&minutesBefore=0&minutesAfter=${process.env.REACT_APP_MENDOTRAN_INTERVALO_CONSULTA}&version=${process.env.REACT_APP_MENDOTRAN_VERSION}`;
+            
+            //const url1 = `https://mendotran.oba.visionblo.com/oba_api/api/where/arrivals-and-departures-for-stop/${process.env.REACT_APP_MENDOTRAN_PARADA_ID1}.json?platform=mobile&v=&minutesBefore=0&minutesAfter=${process.env.REACT_APP_MENDOTRAN_INTERVALO_CONSULTA}&version=${process.env.REACT_APP_MENDOTRAN_VERSION}`;
+
+//            let responsel = urlsFinal.map(url => fetch(url));
+            //const data2      = await Promise.all(responses2.map(response => response.json()));
+            //setResp(responses2);
+            //console.log(responsel);
+            
+            //! hardcodeado anda - cambiar "data" por "algo" y desomentar url0 y url1 de arriba
+            // const data = await Promise.all([
+            
+            //    //pedir las paradas de todas las urls
+            //    fetch(resp[0]).then(response => response.json()),
+            //    fetch(resp[1]).then(response => response.json())
+            // ]);
+            
+            //arrivalsStopId0    =  data[0].data.references.stops[0].name;
+            //arrivalsStopId1    =  data[1].data.references.stops[0].name;
+            //console.log("Codigos de parada: "+arrivalsStopId0+" - "+arrivalsStopId1);
 
             //todo LLENAMOS LOS ARREGLOS CON 7 ARRIBOS COMO MÁXIMO POR PANTALLA
-            setParadas(algo[0].data.entry.arrivalsAndDepartures.map(objeto => ({
-                ...objeto,
-                nuevoElemento: arrivalsStopId0
-              })))
+            //setParadas(data[0].data.entry.arrivalsAndDepartures.map(objeto => ({
+            //    ...objeto,
+            //    nuevoElemento: arrivalsStopId0
+            //  })))
             
-            const llegadas      = [...algo[0].data.entry.arrivalsAndDepartures.map(objeto => ({
-                ...objeto,
-                nuevoElemento: arrivalsStopId0
-              })), ...algo[1].data.entry.arrivalsAndDepartures.map(objeto => ({
-                ...objeto,
-                nuevoElemento: arrivalsStopId1
-              }))];
-            setParadas(llegadas)
-
+            console.log("***********************");
+            //TODO hacer esta parte en funcion y se va todo a la concha de su madre rey
+            setParadas([]);
+            for(let m=0;m<data.length;m++){
+                setParadas(paradasPrev => [...paradasPrev, data[m].data.entry.arrivalsAndDepartures.map((item, i) => {
+                    return {
+                      ...item,
+                      arriId: arriId[i]
+                    };
+                })]
+                )
+                //setParadas(paradasPrev =>[...paradasPrev, updatedData])
+            }
+            
+            
+            //const llegadas      = [...data[0].data.entry.arrivalsAndDepartures.map(objeto => ({
+            //    ...objeto,
+            //    nuevoElemento: arrivalsStopId0
+            //  })), ...data[1].data.entry.arrivalsAndDepartures.map(objeto => ({
+            //    ...objeto,
+            //    nuevoElemento: arrivalsStopId1
+            //  }))];
+            //setParadas(llegadas)
+            //TODO hacer esta parte en funcion y se va todo a la concha de su madre rey
+            //if(paradas){
             //? CUANTAS PARADAS HAY?
             const arrivalsNumber    =  paradas.length
+            if(arrivalsNumber === 0){
+                setLoading(true)
+            }else{
+                setLoading(false)
+            }
             console.log("Cantidad de paradas: " + arrivalsNumber)
 
             //? CUANTAS PANTALLAS COMPLETAS SE PUEDEN ARMAR (N)?
@@ -120,9 +179,13 @@ const LlegadasMultiArrival = () => {
 
             if(screensDelay > 10000){
                 screensDelay = 10000;
+                setActivePubli(true);
+            }else{
+                setActivePubli(false);
             }
             console.log("cada pantalla se mostrará durante " + (screensDelay/1000) + " segundos.")
 
+            console.log("Esto esta hardcodeado: ")
             console.log(paradas)
 
             //? ordenar paradas por numero de linea
@@ -136,6 +199,7 @@ const LlegadasMultiArrival = () => {
             return 0;
         })
         
+        
         if(screensFull !== 0){
             for (let pantalla = 0; pantalla < screensFull; pantalla++) {
                 armarParadas(pantalla)
@@ -148,26 +212,41 @@ const LlegadasMultiArrival = () => {
             await delay(screensDelay)
         }
 
-        if(screensDelay > 10000){
-            setModo0(false)
-            setModo1(false)
-            setModo2(false)
-            setModo3(false)
-            setModo4(false)
-            setModo5(false)
-            setModo6(false)
-            setModo7(false)
-            setModo100(false)
-            setPubli(true);
-            console.log("aca se debería ver la publicidad durante: "+(59000-(10000*screensTotal))/1000);
-            await delay(59000-(10000*screensTotal));
+        //if(screensDelay > 10000){
+        if(activePubli){
+            armarParadas(1000,screensPart,screensFull)
+            await delay((60000-(10000*(screensFull+screensPart))))
         }else{
-            setPubli(false);
-            console.log("La publicidad no debería estar ");
-        }
 
+        }
+        // if(activePubli){
+        //     setModo0(false)
+        //     setModo1(false)
+        //     setModo2(false)
+        //     setModo3(false)
+        //     setModo4(false)
+        //     setModo5(false)
+        //     setModo6(false)
+        //     setModo7(false)
+        //     setModo100(false)
+        //     setPubli(true);
+        //     const publiActiveTime = (50000-(10000*screensTotal));
+        //     console.log("aca se debería ver la publicidad durante: "+publiActiveTime/1000);
+        //     await delay(publiActiveTime);
+        //     setPubli(false);
+        //     //await delay(60000-(10000*screensTotal));
+        // }else{
+        //     setPubli(false);
+        //     console.log("La publicidad no debería estar ");
+        // }
+    //}else{
+    //    setLoading(true);
+    //    setPubli(false);
+    //}
         }catch(error){
             console.log('Error al obtener los datos:', error);
+            setLoading(true)
+            setPubli(false);
         }
     }
 
@@ -314,6 +393,21 @@ const LlegadasMultiArrival = () => {
                     setModo100(true)
                     setPubli(false);
                     break;
+                case 1000:
+                    const publiActiveTime = (60000-(10000*(screensFull+screensPart)));
+                    console.log("Cantidad de pantallas activas: "+screensFull+screensPart);
+                    //console.log("aca se debería ver la publicidad durante: "+publiActiveTime/1000);
+                    setModo0(false)
+                    setModo1(false)
+                    setModo2(false)
+                    setModo3(false)
+                    setModo4(false)
+                    setModo5(false)
+                    setModo6(false)
+                    setModo7(false)
+                    setModo100(false)
+                    setPubli(true);
+                    break;
             
                 default:
                     break;
@@ -323,6 +417,10 @@ const LlegadasMultiArrival = () => {
     return (
 
         <>
+            {(loading)?
+                <div>
+                    <Loading/>
+                </div>:null}
             <div>
                 {(modo0)? 
                     <div>

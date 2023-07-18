@@ -1,0 +1,46 @@
+
+@keyframes fadeIn{
+    0% { opacity: 0;}
+}
+
+.loading-box{
+    animation: fadeIn 3s ease;
+}
+
+@keyframes fade-in-out {
+    0%, 100% {
+      opacity: 0; /* Comienza y termina con opacidad 0 (fade-out) */
+    }
+    50% {
+      opacity: 1; /* Mitad de la animación con opacidad 1 (fade-in) */
+    }
+  }
+.fade-in-out {
+    animation: fade-in-out 10s ease-in-out infinite;
+  }
+
+
+
+.loading{
+    position: absolute;
+    /* background-color: black; */
+    width: 800px;
+    height: 700px;
+    left: 140px;
+    top: 650px; 
+    z-index: 1001;
+}
+
+.loading-text{
+    /* color: #C80F2E; */
+    color: black;
+    /* background-color: black; */
+    position: absolute;
+    width: 1056px;
+    height: 100px;
+    top: 450px;
+    font-size: 70px;
+    font-family:    'Roboto';
+    font-style:     normal;
+    text-align: center;
+}
