@@ -17,10 +17,10 @@ import LlegadasMultiArrival from './components/LlegadasMultiArrival';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <LlegadasMultiArrival/>
     <Header />
     <App />
     <Fecha />
-    <LlegadasMultiArrival/>
     {/* <LlegadasTest /> */}
     {/* <Llegadas /> */}
     {/* <Arrivals /> */}
