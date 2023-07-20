@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Loading.css'; // Archivo CSS para las transiciones
-import loadingImage from '../images/loading4.gif'
+import loadingImage from '../images/loading.gif'
 
 const Loading = () => {
   const texts = ['Pronto podrás ver los póximos arribos !', 'Casi Listo !', 'Que tengas un buen viaje !', ];

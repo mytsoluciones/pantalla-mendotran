@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './Footer.css'
 import publicidad from '../images/publicidad/media/img_chica.jpg'
 

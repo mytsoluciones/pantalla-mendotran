@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './Header.css'
 import 'typeface-roboto'
-import logo from '../images/LOGO-MENDOTRAN-2.jpg'
+import logo from '../images/logo-header.jpg'
 
 function Header() {
 

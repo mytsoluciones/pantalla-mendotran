@@ -161,11 +161,11 @@ const LlegadasMultiArrival = () => {
             screensDelay = Math.round(59000/screensTotal) 
             console.log("en screen delay veo: "+ screensDelay)
 
-            if((screensDelay > 10000)){
-                screensDelay = 10000;
-                if(screensTotal<6){
+            if((screensDelay > 18000)){
+                screensDelay = 15000;
+                //if(screensTotal<6){
                     setActivePubli(true);
-                }
+                //}
             }else{
                 setActivePubli(false);
             }
@@ -192,9 +192,11 @@ const LlegadasMultiArrival = () => {
 
         //if(screensDelay == 15000){
             if(activePubli){
-                armarParadas(1000,screensPart,screensFull)
-                console.log("Publicidad: "+(59000-(screensDelay*screensTotal))+" segundos.")
-                await delay(59000-(screensDelay*screensTotal))
+                armarParadas(1000)
+                //console.log("Publicidad: "+(59000-(screensDelay*screensTotal))+" segundos.")
+                //await delay(59000-(screensDelay*screensTotal))
+                console.log("Publicidad: "+screensDelay+" segundos.")
+                await delay(screensDelay)
             }
             setLoading(false)
         }else{
@@ -218,7 +220,7 @@ const LlegadasMultiArrival = () => {
                     setModo6(false)
                     setModo7(false)
                     setModo100(false)
-                    setPubli(false);
+                    setPubli(false)
                     //setParadas1(paradas0.map(function(parada0, index){ return (index <= 6)?  console.log(parada0) : count++;}))   
                     break;
                 case 1:
@@ -234,7 +236,7 @@ const LlegadasMultiArrival = () => {
                     setModo6(false)
                     setModo7(false)
                     setModo100(false)
-                    setPubli(false);
+                    setPubli(false)
                     break;
                 case 2:
                     console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 8 paradas.")
@@ -249,7 +251,7 @@ const LlegadasMultiArrival = () => {
                     setModo6(false)
                     setModo7(false)
                     setModo100(false)
-                    setPubli(false);
+                    setPubli(false)
                     break;
                 case 3:
                     console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 8 paradas.")
@@ -264,7 +266,7 @@ const LlegadasMultiArrival = () => {
                     setModo6(false)
                     setModo7(false)
                     setModo100(false)
-                    setPubli(false);
+                    setPubli(false)
                     break;
                 case 4:
                     console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 8 paradas.")
@@ -279,7 +281,7 @@ const LlegadasMultiArrival = () => {
                     setModo6(false)
                     setModo7(false)
                     setModo100(false)
-                    setPubli(false);
+                    setPubli(false)
                     break;
                 case 5:
                     console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 8 paradas.")
@@ -294,7 +296,7 @@ const LlegadasMultiArrival = () => {
                     setModo6(false)
                     setModo7(false)
                     setModo100(false)
-                    setPubli(false);
+                    setPubli(false)
                     break;
                 case 6:
                     console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 8 paradas.")
@@ -309,7 +311,7 @@ const LlegadasMultiArrival = () => {
                     setModo6(true)
                     setModo7(false)
                     setModo100(false)
-                    setPubli(false);
+                    setPubli(false)
                     break;
                 case 7:
                     console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 8 paradas.")
@@ -324,7 +326,7 @@ const LlegadasMultiArrival = () => {
                     setModo6(false)
                     setModo7(true)
                     setModo100(false)
-                    setPubli(false);
+                    setPubli(false)
                     break;
                 case 100:
                     console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré: "+ screensPart + " paradas.")
@@ -343,7 +345,7 @@ const LlegadasMultiArrival = () => {
                     setModo6(false)
                     setModo7(false)
                     setModo100(true)
-                    setPubli(false);
+                    setPubli(false)
                     break;
                 case 1000:
                     //const publiActiveTime = (60000-(10000*(screensFull+screensPart)));
@@ -358,7 +360,7 @@ const LlegadasMultiArrival = () => {
                     setModo6(false)
                     setModo7(false)
                     setModo100(false)
-                    setPubli(true);
+                    setPubli(true)
                     break;
             
                 default:
