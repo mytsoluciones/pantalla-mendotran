@@ -32,8 +32,8 @@ const LlegadasMultiArrival = () => {
     const [modo100, setModo100]         = useState(false);
 
     var screensDelay;
-    //var arrivalsStopId0;
-    //var arrivalsStopId1;
+    var arrivalsStopId0;
+    var arrivalsStopId1;
     const [publi, setPubli]             = useState(false);
     const [activePubli, setActivePubli] = useState(false);
     const [loading, setLoading]         = useState(false);
@@ -66,7 +66,7 @@ const LlegadasMultiArrival = () => {
     useEffect(() => {
         const intervalLlegada = setInterval(()=> {
             console.log('------------------- use-effect getDatos (60 segundos) ----------------------------');
-            getDatos();
+            getDatos()
             //mostrar()
         }, 60000);
         //setParadas(datos)
@@ -88,9 +88,9 @@ const LlegadasMultiArrival = () => {
                 
                 //? Con los urls, pedimos los datos correspondientes y los almacenamos en data
                 console.log("2) Arreglos con responses: ");
-                const dataTemp  = await Promise.all(urls.map(url => fetch(url)));
+                const dataTemp  =   (urls.map(url => fetch(url)));
                 const data      = await Promise.all(dataTemp.map(response => response.json()));
-                //console.log(data);
+                console.log(data);
 
                 //? Llenamos el arreglo que contiene todas las paradas 
                 //setArriId([]);
@@ -157,12 +157,12 @@ const LlegadasMultiArrival = () => {
             console.log("El totem tendra " + screensTotal + " pantallas.");
 
             //? CUANTO TIEMPO SE MOSTRARÁ CADA PANTALLA?
-            screensDelay = Math.round(60000/screensTotal); 
+            screensDelay = Math.round(59000/screensTotal); 
             console.log("en screen delay veo: "+ screensDelay/1000);
 
-            if((screensDelay > 18000) && (screensTotal === 3)){
+            if((screensDelay > 18000)){
                 screensDelay = 15000;
-                setActivePubli(true);
+                    setActivePubli(true);
             }else{
                 setActivePubli(false);
             }

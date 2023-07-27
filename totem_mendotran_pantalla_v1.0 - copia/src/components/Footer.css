@@ -1,0 +1,53 @@
+.publicidad_media{
+    position: absolute;
+    border-radius: 8px;
+    width: 1056px;
+    height: 336px;
+    left: 12px;
+    top: 1525px; 
+    z-index: 1000;
+    box-shadow: 0px 0px 0px 0px rgba(0.0, 0.0, 0.0, 0.2);
+}
+
+.powered-footer{
+    position: absolute;
+    width: 1080px;
+    height: 43px;
+    left: 0px;
+    top: 1877px;
+    background: #414141;
+}
+
+.powered-footer-gob{
+    position:   absolute;
+    width:      800px;
+    height:     23px;
+    right:      265px;
+    top:        7px;
+
+    font-family:    'Roboto';
+    font-style:     normal;
+    font-weight:    300;
+    font-size:      20px;
+    line-height:    23px;
+    display:        flex;
+    align-items:    center;
+    color:          #FFFFFF;
+}
+
+.powered-footer-myt{
+    position:   absolute;
+    width:      255px;
+    height:     23px;
+    right:      3px;
+    top:        7px;
+
+    font-family:    'Roboto';
+    font-style:     normal;
+    font-weight:    300;
+    font-size:      20px;
+    line-height:    23px;
+    display:        flex;
+    align-items:    center;
+    color:          #FFFFFF;
+}

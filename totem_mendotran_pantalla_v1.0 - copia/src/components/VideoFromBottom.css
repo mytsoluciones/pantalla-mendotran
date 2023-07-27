@@ -1,0 +1,27 @@
+/* aparecer */
+@keyframes fadeIn{
+    0% { opacity: 0;}
+}
+
+/* levantar */
+@keyframes image-appear{
+    0%{
+        transform: translateY(100%);
+      }
+    100%{
+        transform: translateY(0);
+      }
+}
+
+.publicidad_emergente{
+    animation: fadeIn 3s ease;
+}
+
+.publicidad_emergente{
+    position: absolute;
+    width: 1056px;
+    height: 1240px;
+    left: 12px;
+    top: 270px; 
+    z-index: 1001;
+}
