@@ -118,11 +118,11 @@ const LlegadasMultiArrival = () => {
                 
                 const filtrado = prueba.filter((element)=> element.scheduledArrivalTime >= currentDate);
                 setParadas(filtrado);
+
                 //setStart(true);
             }catch(error){
                 console.log('Error al obtener los datos:', error);;
                 setLoading(true);
-                setPubli(false);
             }
         }else{
             console.log("Todavia no hay urls");
@@ -133,9 +133,9 @@ const LlegadasMultiArrival = () => {
             //? CUANTAS PARADAS HAY?
             const arrivalsNumber    =  paradas.length;
             if(arrivalsNumber === 0){
-                setLoading(true);
+                setPubli(true);
             }else{
-                setLoading(false);
+                setPubli(false);
             }
             console.log("Cantidad de paradas: " + arrivalsNumber);
 
@@ -200,6 +200,18 @@ const LlegadasMultiArrival = () => {
             setLoading(false)
         }else{
             setLoading(true);
+            setPubli(false);
+            setModo0(false);
+            setModo1(false);
+            setModo2(false);
+            setModo3(false);
+            setModo4(false); 
+            setModo5(false);
+            setModo6(false);
+            setModo7(false);
+            setModo100(false);
+            setPubli(false);
+            
         }
     }
 
