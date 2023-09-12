@@ -117,101 +117,120 @@ const LlegadasMultiArrival = () => {
                 console.log(currentDate);
                 
                 const filtrado = prueba.filter((element)=> element.scheduledArrivalTime >= currentDate);
-                setParadas(filtrado);
+                setParadas(filtrado); 
+                 //preparo datos para mostrar
+                
+                if(paradas.length !== 0){
+                    console.log('------------------- getDatos ----------------------------');
+                    
+                    //? CUANTAS PARADAS HAY?
+                    const arrivalsNumber    =  paradas.length;
+                    if(arrivalsNumber === 0){
+                        setPubli(true);
+                    }else{
+                        setPubli(false);
+                    }
+                    console.log("Cantidad de paradas: " + arrivalsNumber);
 
+                    //? CUANTAS PANTALLAS COMPLETAS SE PUEDEN ARMAR (N)?
+                    const screensFull       = ~~(arrivalsNumber/8);
+                    console.log("Pantallas completas con 8 paradas: " + screensFull);
+
+                    //? CUANTAS PARADAS TIENE LA ULTIMA PANTALLA INCOMPLETA (X)
+                    const screensPart       = arrivalsNumber%8;
+                    console.log("Si hay una parada incompleta tendrá: " + screensPart + " paradas.");
+
+                    //? CANTIDAD DE PANTALLAS TOTALES DEL TOTEM ?
+                    var screensTotal 
+                    if(screensPart!==0){
+                        screensTotal = screensFull+1;
+                    }else{
+                        screensTotal = screensFull;
+                    }
+                    console.log("El totem tendra " + screensTotal + " pantallas.");
+
+                    //? CUANTO TIEMPO SE MOSTRARÁ CADA PANTALLA?
+                    screensDelay = Math.round(60000/screensTotal); 
+                    console.log("en screen delay veo: "+ screensDelay/1000);
+
+                    if((screensDelay > 18000) && (screensTotal === 3)){
+                        screensDelay = 15000;
+                        setActivePubli(true);
+                    }else{
+                        setActivePubli(false);
+                    }
+
+                    if((screensDelay > 20000) && (screensTotal === 2)){
+                        screensDelay = 20000;
+                        setActivePubli(true);
+                    }else{
+                        setActivePubli(false);
+                    }
+
+                    if((screensDelay > 30000) && (screensTotal === 1)){
+                        screensDelay = 30000;
+                        setActivePubli(true);
+                    }else{
+                        setActivePubli(false);
+                    }
+                    console.log("cada pantalla se mostrará durante " + (screensDelay/1000) + " segundos.");
+         
+                    if(screensFull !== 0){
+                        for (let pantalla = 0; pantalla < screensFull; pantalla++) {
+                            armarParadas(pantalla);
+                            console.log("Pantalla completa: "+pantalla+" - "+screensDelay+" segundos.");
+                            await delay(screensDelay);
+                        }
+                    }
+        
+                    if(screensPart !== 0){
+                        armarParadas(100,screensPart,screensFull);
+                        console.log("Pantalla incompleta: "+screensDelay+" segundos.");
+                        await delay(screensDelay);
+                    }
+
+                    //if(screensDelay == 15000){
+                    if(activePubli){
+                        armarParadas(1000)
+                        //console.log("Publicidad: "+(59000-(screensDelay*screensTotal))+" segundos.")
+                        const delayPubli = (59000-(screensDelay*screensTotal)); 
+                        console.log("Publicidad: "+delayPubli+" segundos.");
+                        await delay(delayPubli)
+                        //await delay(screensDelay);
+                        setActivePubli(false);
+                    }
+                    setLoading(false)
+                }else{
+                    setLoading(false)
+                    setModo0(false)
+                    setModo1(false)
+                    setModo2(false)
+                    setModo3(false)
+                    setModo4(false)
+                    setModo5(false)
+                    setModo6(false)
+                    setModo7(false)
+                    setModo100(false)
+                    setPubli(true)
+                }       
                 //setStart(true);
             }catch(error){
-                console.log('Error al obtener los datos:', error);;
-                setLoading(true);
+                console.log('Error al obtener los datos:', error); 
+                setLoading(true)  
+                setModo0(false)
+                setModo1(false)
+                setModo2(false)
+                setModo3(false)
+                setModo4(false)
+                setModo5(false)
+                setModo6(false)
+                setModo7(false)
+                setModo100(false)
+                setPubli(false)       
             }
         }else{
             console.log("Todavia no hay urls");
-        }
-
-        if(paradas.length!==0){
-            console.log('------------------- getDatos ----------------------------');
-            //? CUANTAS PARADAS HAY?
-            const arrivalsNumber    =  paradas.length;
-            if(arrivalsNumber === 0){
-                setPubli(true);
-            }else{
-                setPubli(false);
-            }
-            console.log("Cantidad de paradas: " + arrivalsNumber);
-
-            //? CUANTAS PANTALLAS COMPLETAS SE PUEDEN ARMAR (N)?
-            const screensFull       = ~~(arrivalsNumber/8);
-            console.log("Pantallas completas con 8 paradas: " + screensFull);
-
-            //? CUANTAS PARADAS TIENE LA ULTIMA PANTALLA INCOMPLETA (X)
-            const screensPart       = arrivalsNumber%8;
-            console.log("Si hay una parada incompleta tendrá: " + screensPart + " paradas.");
-
-            //? CANTIDAD DE PANTALLAS TOTALES DEL TOTEM ?
-            var screensTotal 
-            if(screensPart!==0){
-                screensTotal = screensFull+1;
-            }else{
-                screensTotal = screensFull;
-            }
-            console.log("El totem tendra " + screensTotal + " pantallas.");
-
-            //? CUANTO TIEMPO SE MOSTRARÁ CADA PANTALLA?
-            screensDelay = Math.round(60000/screensTotal); 
-            console.log("en screen delay veo: "+ screensDelay/1000);
-
-            if((screensDelay > 18000) && (screensTotal === 3)){
-                screensDelay = 15000;
-                setActivePubli(true);
-            }else{
-                setActivePubli(false);
-            }
-            console.log("cada pantalla se mostrará durante " + (screensDelay/1000) + " segundos.");
-
-            //console.log("Esto esta hardcodeado: ")
-            //console.log(paradas)
-
-            
-         
-            if(screensFull !== 0){
-                for (let pantalla = 0; pantalla < screensFull; pantalla++) {
-                    armarParadas(pantalla);
-                    console.log("Pantalla completa: "+pantalla+" - "+screensDelay+" segundos.");
-                    await delay(screensDelay);
-                }
-            }
-        
-            if(screensPart !== 0){
-                armarParadas(100,screensPart,screensFull);
-                console.log("Pantalla incompleta: "+screensDelay+" segundos.");
-                await delay(screensDelay);
-            }
-
-        //if(screensDelay == 15000){
-            if(activePubli){
-                armarParadas(1000)
-                //console.log("Publicidad: "+(59000-(screensDelay*screensTotal))+" segundos.")
-                const delayPubli = (59000-(screensDelay*screensTotal)); 
-                console.log("Publicidad: "+delayPubli+" segundos.");
-                await delay(delayPubli)
-                //await delay(screensDelay);
-                setActivePubli(false);
-            }
-            setLoading(false)
-        }else{
             setLoading(true);
-            setPubli(false);
-            setModo0(false);
-            setModo1(false);
-            setModo2(false);
-            setModo3(false);
-            setModo4(false); 
-            setModo5(false);
-            setModo6(false);
-            setModo7(false);
-            setModo100(false);
-            setPubli(false);
-            
         }
     }
 
