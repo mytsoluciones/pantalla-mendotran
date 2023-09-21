@@ -1,3 +1,6 @@
+//Version de 7 pantallas
+
+
 import React, {useState, useEffect } from 'react'
 import './Arrivals.css'
 
@@ -6,7 +9,7 @@ function Arrivals() {
     const llegadas = () => [] 
     //const [llegadas, setLlegadas] = useState('')
 
-    var arrivalsNumber = 0
+    var arrivalsNumber = 0      //
     var arrivalsScreensResto
     var arrivalsScreensMod 
     var space = 160  //distancia entre carteles = 

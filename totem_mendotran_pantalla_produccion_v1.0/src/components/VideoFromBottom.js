@@ -1,3 +1,6 @@
+// Componente encargado de mostrar el video de publicidad en el medio de la pantalla 
+// y ajustarlo al tamaño de la pantalla   
+
 import React from 'react';
 import './VideoFromBottom.css';
 import publiVideo from '../videos/video.mp4'

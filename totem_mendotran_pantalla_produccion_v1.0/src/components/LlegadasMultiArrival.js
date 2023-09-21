@@ -1,15 +1,19 @@
+//Componente encargado de solicitar y procesar los datos de las api de oblovo que contiene los recorridos
+// y los proximos arribos de las paradas solicitadas
+
 import React, { useEffect, useState } from 'react'
 import './Arrivals.css'
 import Llegada  from './Llegada'
 import VideoFromBottom from './VideoFromBottom';
 import Loading from './Loading';
 
+// Funcion que sirve para generar un delay durante los milisegundos pasasdos como argumento
 const delay = ms => new Promise(
     resolve => setTimeout(resolve, ms)
 );
 
 const LlegadasMultiArrival = () => {
-
+    //Arreglos para contener las paradas por pantalla
     const [paradas, setParadas]             = useState([]);
     const [paradas0, setParadas0]           = useState([]);
     const [paradas1, setParadas1]           = useState([]);
@@ -20,7 +24,7 @@ const LlegadasMultiArrival = () => {
     const [paradas6, setParadas6]           = useState([]);
     const [paradas7, setParadas7]           = useState([]);
     const [paradas100, setParadas100]       = useState([]);
-
+    // Para activar y desactivar la visualizaciond e las paradas
     const [modo0, setModo0]             = useState(false);
     const [modo1, setModo1]             = useState(false);
     const [modo2, setModo2]             = useState(false);
@@ -30,27 +34,30 @@ const LlegadasMultiArrival = () => {
     const [modo6, setModo6]             = useState(false);
     const [modo7, setModo7]             = useState(false);
     const [modo100, setModo100]         = useState(false);
-
+    // Tiempo que dura cada pantalla durante el cilo de consulta
     var screensDelay;
     //var arrivalsStopId0;
     //var arrivalsStopId1;
+
+    // Para activar y desactivar publicidad
     const [publi, setPubli]             = useState(false);
     const [activePubli, setActivePubli] = useState(false);
+    // Para activar y desactivar publicidad
     const [loading, setLoading]         = useState(false);
     
-    //? para funcion que hace las consultas de URLS
-    
+    // Almacena las consultas a las diferentes paradas seteadas por el usuario desde el backoffice
     const [urls, setUrls]               = useState([]);
     const [arriId, setArriId]           = useState([]);
     const [paradasPrev, setParadasPrev] = useState([]);
     const [start, setStart]             = useState(false);
     
-    //? Para manejar el punto inicial de las paradas y la cion entre ambas
+    // Constantes de espacio en pixeles para desplegar las paradas en cada pantalla considerando pantallas de 8 paradas 
     //const initSpace = 440; //para 7 paradas
-    const initSpace         = 280;
-    const intermediateSpace = 152;
+    const initSpace         = 280; // margin top inicial
+    const intermediateSpace = 152; // Separacion entre cada cartel de arribo
 
-    //? Armo las URLS a consultar
+    // armas las urls que va a utilziar para las consultas de la api mendotran, segun las paradas seteadas por el usuario
+    // Esto debe ejecutarse una sola vez al inicio de la aplicacion.
     useEffect(() => {
         setUrls([]);
         for (let i = 0; i < process.env.REACT_APP_ARRIVALS_AMOUNT; i++) {
@@ -62,23 +69,25 @@ const LlegadasMultiArrival = () => {
         console.log(urls);
       }, []);
 
-    //? Preparo los datos a mostrar
+    // Consulto y preparo los datos a mostrar cada 1 minuto
     useEffect(() => {
         const intervalLlegada = setInterval(()=> {
             console.log('------------------- use-effect getDatos (60 segundos) ----------------------------');
             getDatos();
             //mostrar()
         }, 60000);
-        //setParadas(datos)
         return () => clearInterval(intervalLlegada);
     });
 
  
     const getDatos = async () =>{ 
+        // Inicializo los arreglos en cero al comienzo de cada ciclo de de consulta
         setArriId([]);
         setParadasPrev([]);
         setParadas([]);
         
+        //Si tengo las urls armadas, significa que hay seteadas paradas por parte del usuario, sino muestro el 
+        // gif de loading
         if(urls.length!==0){
             console.log('------------------- requestData ----------------------------')
             try{
@@ -102,6 +111,7 @@ const LlegadasMultiArrival = () => {
                     //setArriId(arrIdPrev=>[...arrIdPrev, data[i].data.references.stops[0].name]);
                 }
                 const prueba = paradasPrev.flatMap(subArray => Object.values(subArray)); 
+                
                 //? ordenar paradas por numero de linea
                 prueba.sort((a,b) =>{
                     if(a.routeShortName < b.routeShortName){
@@ -113,13 +123,13 @@ const LlegadasMultiArrival = () => {
                         return 0;
                     })
                 
+                //? Consulto la hora actual para saber si los datos obtenidos son vejos o no
                 const currentDate = new Date().getTime();
                 console.log(currentDate);
-                
                 const filtrado = prueba.filter((element)=> element.scheduledArrivalTime >= currentDate);
                 setParadas(filtrado); 
-                 //preparo datos para mostrar
                 
+                // Si hay arribos disponibles, entonces comenzamos a procesarlos para poder mostrarlos
                 if(paradas.length !== 0){
                     console.log('------------------- getDatos ----------------------------');
                     
@@ -189,18 +199,15 @@ const LlegadasMultiArrival = () => {
                         await delay(screensDelay);
                     }
 
-                    //if(screensDelay == 15000){
                     if(activePubli){
                         armarParadas(1000)
-                        //console.log("Publicidad: "+(59000-(screensDelay*screensTotal))+" segundos.")
                         const delayPubli = (59000-(screensDelay*screensTotal)); 
                         console.log("Publicidad: "+delayPubli+" segundos.");
                         await delay(delayPubli)
-                        //await delay(screensDelay);
                         setActivePubli(false);
                     }
                     setLoading(false)
-                }else{
+                }else{ //No hay proximos arribos
                     setLoading(false)
                     setModo0(false)
                     setModo1(false)
@@ -213,8 +220,7 @@ const LlegadasMultiArrival = () => {
                     setModo100(false)
                     setPubli(true)
                 }       
-                //setStart(true);
-            }catch(error){
+            }catch(error){ //No se pueden obtener los datos
                 console.log('Error al obtener los datos:', error); 
                 setLoading(true)  
                 setModo0(false)
@@ -234,8 +240,8 @@ const LlegadasMultiArrival = () => {
         }
     }
 
+    // Se arman los arreglos con un máximo de 8 arribos cada uno
     const armarParadas = async (pantalla, screensPart, screensFull) =>{
-        // const armarParadas = (pantalla, screensPart, screensFull) =>{
             switch (pantalla) {
                 case 0:
                     console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 8 paradas.")
@@ -251,7 +257,6 @@ const LlegadasMultiArrival = () => {
                     setModo7(false)
                     setModo100(false)
                     setPubli(false)
-                    //setParadas1(paradas0.map(function(parada0, index){ return (index <= 6)?  console.log(parada0) : count++;}))   
                     break;
                 case 1:
                     console.log("Estoy en funcion armar paradas con index: "+pantalla+" y mostraré 8 paradas.")

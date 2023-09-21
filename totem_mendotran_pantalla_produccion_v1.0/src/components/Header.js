@@ -1,3 +1,5 @@
+// Compoenente encargado de consultar y desplegar el clima y el logo del cliente en la parte superior
+
 import React, { useEffect, useState } from 'react'
 import './Header.css'
 import 'typeface-roboto'
@@ -5,59 +7,36 @@ import logo from '../images/logo-header.jpg'
 
 function Header() {
 
-    //! tener en cuenta el timer para produccion, son 50 request máximas por día que puede hacer esta api gratis - para produccion 1800000 - para test 60000 
+    //Consulta el clima al servidor cada 20minutos
     useEffect(()=>{
         const intervalWeather = setInterval(()=> {
             getData()
         },20*60000);
-
         return () => clearInterval(intervalWeather);
-    }) // eslint-disable-line react-hooks/exhaustive-deps
+    }) 
 
     const [values, setValues]   = useState('')
 
-    //! decomentar esto para produccion, aunque es muy probable que haya algo que pida una sola vez cada hora el dato en el server, guarde un archivo en el servidor y los totems le apunten ahi para no quemar las request diarias (50 como mucho para los peteros)
-    //const URL = `https://api.openweathermap.org/data/2.5/weather?q=mendoza&lang=es&units=metric&appid=${process.env.REACT_APP_API_WEATHER_KEY}`
-    //! Descomentar para test
-    //const URL = `https://mytsoluciones.com/desarrollo/Totem/json_files_test/openweather.json`
+    // URL del archivo php ubicado en el servidor encargado 
+    // de realizar la consulta a la api cuando corresponde y entregar los datos a los totems 
     const URL = `https://mytsoluciones.com/desarrollo/Totem/api_clima.php?localidad=mendoza`
 
-    
-
-    //! Descomentar para produccion
-    //const getData = async () =>{
-    //    await fetch(URL)
-
-    //! Descomentar para test
     const getData = async () =>{
-
+        // Solicitud de datos del clima
         try{
+            //Por cuestiones de servidor es necesario activar 'Access-Control-Allow-Origin': '*' para 
+            //permitir que la solicitud ingrese y sea procesada
             const jsonData = await fetch(URL).then(response => response.json(),{
-                        'mode': 'no-cors',
-                        'headers':{
-                            'Access-Control-Allow-Origin': '*',
-                        }})
-                        setValues(jsonData);
+                'mode': 'no-cors',
+                'headers':{
+                    'Access-Control-Allow-Origin': '*',
+            }})
+            setValues(jsonData);
 
         }catch (error) {
              console.log('Error al analizar el JSON:', error);
            }
     }
-        
-        // try {
-        //     const jsonData = await new Promise(fetch(URL).then(response => response.json()),{
-        //         'mode': 'no-cors',
-        //         'headers':{
-        //             'Access-Control-Allow-Origin': '*',
-        //         }
-        //     })
-        //     setValues(jsonData);
-        //     // Resto del código para trabajar con el JSON
-        //   } catch (error) {
-        //     console.log('Error al analizar el JSON:', error);
-        //   }
-    
-    
 
     return (
     <>
@@ -65,11 +44,11 @@ function Header() {
           
           <div className="header_botom_box">
                 <div>
+                    {/* Logo del cliente */}
                     <img className='mendotran_logo' src={logo} alt="Logo"></img>
                 </div>
                 <div className='clima'>
                     {(values) ? (
-                    
                         <div>
                             
                             {/* <img className='icon_clima' src={`http://openweathermap.org/img/wn/10d.png`} alt="clima icon"></img> */}
@@ -80,8 +59,8 @@ function Header() {
                             {/* {values.weather[0].description}  */}
                             </p>
                         </div>
-                        
                     ) : (
+                        //Si no hay datos del clima, no muestra nada
                         <p className='temp_clima'></p>
                     )}
                 </div>
